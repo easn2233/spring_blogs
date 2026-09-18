@@ -62,6 +62,11 @@ const maShanZheng = Ma_Shan_Zheng({
   preload: false,
 });
 
+// 构建时后端不可达会让 getPublicConfigSnapshot 的 fetch 抛错，
+// 其携带的 next.revalidate 随之丢失，整站被固化为纯静态页。
+// 路由级 revalidate 保证无论 fetch 成败都保留 10s 的 ISR 窗口。
+export const revalidate = 10;
+
 export async function generateMetadata(): Promise<Metadata> {
   let title = "春风不解别离 | 个人生活档案馆";
   let faviconUrl = "/icon.png";
